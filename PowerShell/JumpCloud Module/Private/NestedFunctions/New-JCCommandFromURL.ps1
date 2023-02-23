@@ -13,11 +13,11 @@ Function New-JCCommandFromURL {
 
     process {
 
-        # Convert GitHub url to raw url
-        $httpUrl = $GitHubURL | Select-String -Pattern "\bmaster.*$" | % { $_.Matches }  | % { $_.Value }
-        $rawUrl = "https://raw.githubusercontent.com/TheJumpCloud/support/$httpUrl"
+        # # Convert GitHub url to raw url
+        # $httpUrl = $GitHubURL | Select-String -Pattern "\bmaster.*$" | % { $_.Matches }  | % { $_.Value }
+        # $rawUrl = "https://raw.githubusercontent.com/TheJumpCloud/support/$httpUrl"
 
-        $rawUrlInvoke = Invoke-WebRequest -Uri $rawUrl -UseBasicParsing -UserAgent:(Get-JCUserAgent)
+        $rawUrlInvoke = Invoke-WebRequest -Uri $GitHubURL -UseBasicParsing -UserAgent:(Get-JCUserAgent)
         $content = [Regex]::Matches($rawUrlInvoke.Content, '#### (Name|commandType).*[\r\n]+(.*)|#### Command[\n\r]+.*\n([\s\S]*?)```$', [System.Text.RegularExpressions.RegexOptions]::Multiline)
 
         # Command Values
